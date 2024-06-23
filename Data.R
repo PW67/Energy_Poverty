@@ -1,5 +1,7 @@
+# load libraries
 library(readabs)
-# R_READABS_PATH = "C:/Users/PaulWard/GitHub/Energy Poverty Research Paper"
+R_READABS_PATH = "C:/Users/PaulWard/GitHub/Energy_Poverty"
+# set path for ABS files to local drive
 library(tidyverse)
 library(lubridate)
 library(zoo)
@@ -9,14 +11,13 @@ library(dynlm)
 library(MASS, exclude = "select")
 library(lmtest)
 
-
-# set number of decimal points to 20 (needed for the AER data)
 options(digits=20)
+# set number of decimal points to 20 (needed for the AER data)
 
-# Loads raw ABS data into DF - ready for manipulation
+
 e_syd <- read_abs(series_id = "A2328101R")
 c_syd <- read_abs(series_id = "A2325806K")
-
+# Loads raw ABS data into DF - ready for manipulation
 # EPI = electricity price index
 
 # electricity CPI (Australia) ABS Series ID = A2328141J
@@ -61,20 +62,16 @@ covid$covid <- as.integer(c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,
 
 
 
-# spript to load AER URL data (obsolete)
+# script to load AER URL data (obsolete)
 # aer_url <- read_excel("aer_url.xlsx")
 
 # returns a DF with AER URLs for loading hardship program percentage data
-aer_url <- as.data.frame(c("AER01", "AER02", "AER03", "AER04", "AER05", "AER06", "AER07", "AER08"))
-aer_url$period <- c("2015-16",	"2016-17",	"2017-18",	"2018-19",	"2019-20",	"2020-21",	"2021-22",	"2022-23")
-aer_url$Link <- c("https://www.aer.gov.au/system/files/AER%20Retail%20Performance%20Data%20Quarterly%202015-16.XLSX",
-                  "https://www.aer.gov.au/system/files/AER%20Retail%20Performance%20Data%20Quarterly%202016-17.XLSX",
-                  "https://www.aer.gov.au/system/files/Q1%202018-19%20Retail%20Performance%20Data%20Workbook_1.XLSX",
-                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Q1%202019-20%20Retail%20Performance%20Data%20v2.XLSX",
-                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Q1%202020-21%20Retail%20Performance%20Data.xlsx",
-                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Retail%20Performance%20Data%20Q1%202021.xlsx",
-                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Quarter%202%202021-22%20retail%20performance%20data.xlsx",
-                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Quarter%203%202022-23%20Retail%20Performance%20Data.xlsm"
+aer_url <- as.data.frame(c("AER01", "AER02", "AER03", "AER04", "AER05", "AER06", "AER07", "AER08","AER09"))
+aer_url$period <- c("2015-16",	"2016-17",	"2017-18",	"2018-19",	"2019-20",	"2020-21",	"2021-22",	"2022-23", "2023-24")
+aer_url$Link <- c("https://www.aer.gov.au/system/files/Schedule%204%20-%20Quarter%202%202022-23%20retail%20performance%20data.xlsm", #AER06 Q2 21/23 - Q2 22/23
+  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Retail%20Performance%20Data%20Q1%202022-23%20%28Final%29.xlsm", #AER07 Q1 21/22 - Q1 22/23
+                  "https://www.aer.gov.au/system/files/Schedule%204%20-%20Quarter%202%202022-23%20retail%20performance%20data.xlsm", #AER08 Q2 21/23 - Q2 22/23
+                  "https://www.aer.gov.au/system/files/2024-06/Schedule%204%20-%20Quarter%203%202023-24%20Retail%20Performance%20Data.xlsm" #AER09 Q1 22/23 - Q3 23/24
                   )
 colnames(aer_url) <- c("file_name","period","Link")
 
